@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const test = require('ava');
 const mockery = require('mockery');
-const streamTransformer = '../lib/credential-parser.js';
+const streamTransformer = '../lib/credential-to-json.js';
 
 test.cb.beforeEach((t) => {
   mockery.enable({ useCleanCache: true });
@@ -116,6 +116,40 @@ test.cb('it replaces the first profile', (t) => {
     if (profileName === 'first') {
       t.same(data[profileName].aws_access_key_id, firstProfile.first.aws_access_key_id);
       t.same(data[profileName].aws_secret_access_key, firstProfile.first.aws_secret_access_key);
+    }
+    finish();
+  });
+
+  credentialsFile.pipe(transformer);
+});
+
+test.cb('it should add a new profile', (t) => {
+  const fixture = './fixtures/three';
+  const lastProfile = {
+    last: {
+      aws_access_key_id: 'aaaaaaaaaaaaaaaaaaaa',
+      aws_secret_access_key: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+    }
+  };
+  const transformer = require(streamTransformer)(lastProfile);
+  const credentialsFile = fs.createReadStream(fixture);
+  const expectedProfileNames = ['default', 'first', 'second', 'last'];
+  const expectedNumReads = 6;
+  t.plan(expectedNumReads);
+  let i = 0;
+  const finish = () => ++i >= 4 ? t.end() : null;
+
+  transformer.on('readable', () => {
+    const data = transformer.read();
+    if (!data) {
+      return;
+    }
+
+    const profileName = Object.keys(data)[0];
+    t.true(expectedProfileNames.indexOf(profileName) > -1);
+    if (profileName === 'last') {
+      t.same(data[profileName].aws_access_key_id, lastProfile.last.aws_access_key_id);
+      t.same(data[profileName].aws_secret_access_key, lastProfile.last.aws_secret_access_key);
     }
     finish();
   });

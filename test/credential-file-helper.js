@@ -12,7 +12,7 @@ const convertPath = (p) => p.replace(/\//g, path.sep);
 test.beforeEach(() => {
   mockery.enable({ useCleanCache: true });
   mockery.registerAllowable(credentialFileHelper, true);
-  mockery.registerAllowables(['os', 'path', 'readline']);
+  mockery.registerAllowables(['os', 'path', 'readline', 'stream', 'util', './credential-parser.js', './credential-to-json.js', './json-to-credential.js']);
 });
 
 test.afterEach(() => {
@@ -23,7 +23,7 @@ test.afterEach(() => {
 });
 
 test.serial('it should set the path values to default if they are not supplied', (t) => {
-  mockery.registerAllowables(['stream', 'util', './credential-parser.js', 'fs']);
+  mockery.registerAllowables(['fs']);
   const CredentialHelper = require(credentialFileHelper);
   const c = new CredentialHelper();
 
@@ -31,7 +31,6 @@ test.serial('it should set the path values to default if they are not supplied',
 });
 
 test.serial('non-existant paths should be invalid', (t) => {
-  mockery.registerAllowables(['stream', 'util', './credential-parser.js']);
   const fsModule = {
     access: (p, cb) => cb(new Error('does not exist'))
   };
@@ -44,7 +43,6 @@ test.serial('non-existant paths should be invalid', (t) => {
 });
 
 test.serial('existing paths should be valid', (t) => {
-  mockery.registerAllowables(['stream', 'util', './credential-parser.js']);
   const fsModule = {
     access: (p, cb) => cb()
   };
@@ -57,7 +55,7 @@ test.serial('existing paths should be valid', (t) => {
 });
 
 test.serial('it should find the default profile', (t) => {
-  mockery.registerAllowables(['fs', 'stream', 'util', './credential-parser.js']);
+  mockery.registerAllowables(['fs']);
   const CredentialHelper = require(credentialFileHelper);
   const c = new CredentialHelper('./fixtures/default-only');
 
@@ -65,7 +63,7 @@ test.serial('it should find the default profile', (t) => {
 });
 
 test.serial('it should reject if the profile doesnt exist', (t) => {
-  mockery.registerAllowables(['fs', 'stream', 'util', './credential-parser.js']);
+  mockery.registerAllowables(['fs']);
   const CredentialHelper = require(credentialFileHelper);
   const c = new CredentialHelper('./fixtures/default-only');
 
