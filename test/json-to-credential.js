@@ -8,6 +8,8 @@ const JSONtoCredentials = '../lib/json-to-credential.js';
 const credentialsToJSON = '../lib/credential-to-json.js';
 const devnull = require('dev-null');
 
+const removeLineEndings = (line) => line.trim().replace(/\r/g, '').replace(/\n/g, '');
+
 test.cb.beforeEach((t) => {
   mockery.enable({ useCleanCache: true });
   mockery.registerAllowable(JSONtoCredentials, true);
@@ -94,7 +96,7 @@ test.cb('it should write the json to a file correctly', (t) => {
         temp.cleanupSync();
         return t.end(err);
       }
-      t.same(data.trim(), expectedFileStructure);
+      t.same(removeLineEndings(data), removeLineEndings(expectedFileStructure));
       temp.cleanupSync();
       t.end();
     });
@@ -116,7 +118,7 @@ test.cb('it should update the file correctly', (t) => {
   const toCredentials = require(JSONtoCredentials)();
   const toJson = require(credentialsToJSON)(updatedProfile);
   const src = fs.createReadStream(fixture);
-  const expectedFileStructure = fs.readFileSync(expected, 'utf-8').trim().replace(/\r/g, '').replace(/\n/g, '');
+  const expectedFileStructure = fs.readFileSync(expected, 'utf-8');
   const writable = temp.createWriteStream();
   const pathToTemp = writable.path;
 
@@ -127,7 +129,7 @@ test.cb('it should update the file correctly', (t) => {
         temp.cleanupSync();
         return t.end(err);
       }
-      t.same(data.trim().replace(/\r/g, '').replace(/\n/g, ''), expectedFileStructure);
+      t.same(removeLineEndings(data), removeLineEndings(expectedFileStructure));
       temp.cleanupSync();
       t.end();
     });
@@ -149,7 +151,7 @@ test.cb('it should write the new profile', (t) => {
   const toCredentials = require(JSONtoCredentials)();
   const toJson = require(credentialsToJSON)(updatedProfile);
   const src = fs.createReadStream(fixture);
-  const expectedFileStructure = fs.readFileSync(expected, 'utf-8').trim().replace(/\r/g, '').replace(/\n/g, '');
+  const expectedFileStructure = fs.readFileSync(expected, 'utf-8');
   const writable = temp.createWriteStream();
   const pathToTemp = writable.path;
 
@@ -160,7 +162,7 @@ test.cb('it should write the new profile', (t) => {
         temp.cleanupSync();
         return t.end(err);
       }
-      t.same(data.trim().replace(/\r/g, '').replace(/\n/g, ''), expectedFileStructure);
+      t.same(removeLineEndings(data), removeLineEndings(expectedFileStructure));
       temp.cleanupSync();
       t.end();
     });
