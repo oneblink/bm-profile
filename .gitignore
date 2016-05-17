@@ -35,3 +35,4 @@ node_modules
 # blink config file
 .blinkmrc.json
 www/
+jsdocs/
