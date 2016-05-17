@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const os = require('os');
 
 const test = require('ava');
 const mockery = require('mockery');
@@ -8,12 +9,13 @@ const JSONtoCredentials = '../lib/json-to-credential.js';
 const credentialsToJSON = '../lib/credential-to-json.js';
 const devnull = require('dev-null');
 
-const removeLineEndings = (line) => line.trim().replace(/\r/g, '').replace(/\n/g, '');
+const removeLineEndings = (line) => line.trim().replace(new RegExp(os.EOL, 'g'), '');
 
 test.cb.beforeEach((t) => {
   mockery.enable({ useCleanCache: true });
   mockery.registerAllowable(JSONtoCredentials, true);
   mockery.registerAllowables([
+    'os',
     'temp',
     'fs',
     'path',

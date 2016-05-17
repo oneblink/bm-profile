@@ -9,7 +9,7 @@ const streamTransformer = '../lib/credential-to-json.js';
 test.cb.beforeEach((t) => {
   mockery.enable({ useCleanCache: true });
   mockery.registerAllowable(streamTransformer, true);
-  mockery.registerAllowables(['stream', 'util']);
+  mockery.registerAllowables(['stream', 'util', 'os']);
   t.end();
 });
 
