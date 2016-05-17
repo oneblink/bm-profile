@@ -41,10 +41,9 @@ test.cb.afterEach((t) => {
 test('it should turn a profile json into a credentials entry string', (t) => {
   const toCredentials = require(JSONtoCredentials)();
   const profile = {
-    default: {
-      aws_access_key_id: '11111111111111111111',
-      aws_secret_access_key: '2222222222222222222222222222222222222222'
-    }
+    name: 'default',
+    aws_access_key_id: '11111111111111111111',
+    aws_secret_access_key: '2222222222222222222222222222222222222222'
   };
 
   const result = toCredentials.chunkToArray(profile);
@@ -112,10 +111,9 @@ test.cb('it should update the file correctly', (t) => {
   const fixture = './fixtures/malformed';
   const expected = './fixtures/three';
   const updatedProfile = {
-    first: {
-      aws_access_key_id: '33333333333333333333',
-      aws_secret_access_key: '4444444444444444444444444444444444444444'
-    }
+    name: 'first',
+    aws_access_key_id: '33333333333333333333',
+    aws_secret_access_key: '4444444444444444444444444444444444444444'
   };
   const toCredentials = require(JSONtoCredentials)();
   const toJson = require(credentialsToJSON)(updatedProfile);
@@ -145,10 +143,9 @@ test.cb('it should write the new profile', (t) => {
   const fixture = './fixtures/two';
   const expected = './fixtures/three';
   const updatedProfile = {
-    second: {
-      aws_access_key_id: '55555555555555555555',
-      aws_secret_access_key: '6666666666666666666666666666666666666666'
-    }
+    name: 'second',
+    aws_access_key_id: '55555555555555555555',
+    aws_secret_access_key: '6666666666666666666666666666666666666666'
   };
   const toCredentials = require(JSONtoCredentials)();
   const toJson = require(credentialsToJSON)(updatedProfile);

@@ -53,7 +53,7 @@ test.cb('it reads three profiles', (t) => {
       return;
     }
 
-    const profileName = Object.keys(data)[0];
+    const profileName = data.name;
     t.true(expectedProfileNames.indexOf(profileName) > -1);
     finish();
   });
@@ -77,11 +77,11 @@ test.cb('it reads three profiles even when a profile is incomplete', (t) => {
       return;
     }
 
-    const profileName = Object.keys(data)[0];
+    const profileName = data.name;
     t.true(expectedProfileNames.indexOf(profileName) > -1);
     if (profileName === expectedProfileNames[1]) {
-      t.true(!!data[profileName].aws_access_key_id);
-      t.false(!!data[profileName].aws_secret_access_key);
+      t.true(!!data.aws_access_key_id);
+      t.false(!!data.aws_secret_access_key);
     }
     finish();
   });
@@ -92,10 +92,9 @@ test.cb('it reads three profiles even when a profile is incomplete', (t) => {
 test.cb('it replaces the first profile', (t) => {
   const fixture = './fixtures/malformed';
   const firstProfile = {
-    first: {
-      aws_access_key_id: 'aaaaaaaaaaaaaaaaaaaa',
-      aws_secret_access_key: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-    }
+    name: 'first',
+    aws_access_key_id: 'aaaaaaaaaaaaaaaaaaaa',
+    aws_secret_access_key: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
   };
   const transformer = require(streamTransformer)(firstProfile);
   const credentialsFile = fs.createReadStream(fixture);
@@ -111,11 +110,11 @@ test.cb('it replaces the first profile', (t) => {
       return;
     }
 
-    const profileName = Object.keys(data)[0];
+    const profileName = data.name;
     t.true(expectedProfileNames.indexOf(profileName) > -1);
     if (profileName === 'first') {
-      t.same(data[profileName].aws_access_key_id, firstProfile.first.aws_access_key_id);
-      t.same(data[profileName].aws_secret_access_key, firstProfile.first.aws_secret_access_key);
+      t.same(data.aws_access_key_id, firstProfile.aws_access_key_id);
+      t.same(data.aws_secret_access_key, firstProfile.aws_secret_access_key);
     }
     finish();
   });
@@ -126,10 +125,9 @@ test.cb('it replaces the first profile', (t) => {
 test.cb('it should add a new profile', (t) => {
   const fixture = './fixtures/three';
   const lastProfile = {
-    last: {
-      aws_access_key_id: 'aaaaaaaaaaaaaaaaaaaa',
-      aws_secret_access_key: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-    }
+    name: 'last',
+    aws_access_key_id: 'aaaaaaaaaaaaaaaaaaaa',
+    aws_secret_access_key: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
   };
   const transformer = require(streamTransformer)(lastProfile);
   const credentialsFile = fs.createReadStream(fixture);
@@ -145,11 +143,11 @@ test.cb('it should add a new profile', (t) => {
       return;
     }
 
-    const profileName = Object.keys(data)[0];
+    const profileName = data.name;
     t.true(expectedProfileNames.indexOf(profileName) > -1);
     if (profileName === 'last') {
-      t.same(data[profileName].aws_access_key_id, lastProfile.last.aws_access_key_id);
-      t.same(data[profileName].aws_secret_access_key, lastProfile.last.aws_secret_access_key);
+      t.same(data.aws_access_key_id, lastProfile.aws_access_key_id);
+      t.same(data.aws_secret_access_key, lastProfile.aws_secret_access_key);
     }
     finish();
   });
