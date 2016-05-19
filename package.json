@@ -19,7 +19,8 @@
   "scripts": {
     "ava": "ava",
     "lint": "eslint .",
-    "test": "npm-run-all lint ava"
+    "test": "npm-run-all lint ava",
+    "make-docs": "jsdoc index.js ./lib -d ./jsdocs"
   },
   "keywords": [
     "BlinkMobile",
