@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@blinkmobile/aws-profile-management": "1.0.0",
+    "ask-all-questions": "git://github.com/lvendrame/askAllQuestions.git",
     "meow": "^3.7.0",
     "update-notifier": "^0.6.0"
   }
