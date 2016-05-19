@@ -1,4 +1,4 @@
-# AWS Profile Management
+# Credentials Profile Management
 
 This is a utility for use with our [CLI](https://github.com/blinkmobile/cli)
 
