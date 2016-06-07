@@ -15,7 +15,7 @@ function write (profileName) {
 
 module.exports = function (profileName, flags, options) {
   if (profileName) {
-    if (flags.set || flags.s) {
+    if (flags.set) {
       return write(profileName)
         .then(() => profileConfig(profileName))
         .then(() => profile.show());

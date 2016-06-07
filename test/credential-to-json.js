@@ -113,8 +113,8 @@ test.cb('it replaces the first profile', (t) => {
     const profileName = data.name;
     t.true(expectedProfileNames.indexOf(profileName) > -1);
     if (profileName === 'first') {
-      t.same(data.aws_access_key_id, firstProfile.aws_access_key_id);
-      t.same(data.aws_secret_access_key, firstProfile.aws_secret_access_key);
+      t.deepEqual(data.aws_access_key_id, firstProfile.aws_access_key_id);
+      t.deepEqual(data.aws_secret_access_key, firstProfile.aws_secret_access_key);
     }
     finish();
   });
@@ -146,8 +146,8 @@ test.cb('it should add a new profile', (t) => {
     const profileName = data.name;
     t.true(expectedProfileNames.indexOf(profileName) > -1);
     if (profileName === 'last') {
-      t.same(data.aws_access_key_id, lastProfile.aws_access_key_id);
-      t.same(data.aws_secret_access_key, lastProfile.aws_secret_access_key);
+      t.deepEqual(data.aws_access_key_id, lastProfile.aws_access_key_id);
+      t.deepEqual(data.aws_secret_access_key, lastProfile.aws_secret_access_key);
     }
     finish();
   });

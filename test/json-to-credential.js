@@ -47,11 +47,11 @@ test('it should turn a profile json into a credentials entry string', (t) => {
   };
 
   const result = toCredentials.chunkToArray(profile);
-  t.same(result.length, 4);
-  t.same(result[0], '[default]');
-  t.same(result[1], 'aws_access_key_id = 11111111111111111111');
-  t.same(result[2], 'aws_secret_access_key = 2222222222222222222222222222222222222222');
-  t.same(result[3], '');
+  t.deepEqual(result.length, 4);
+  t.deepEqual(result[0], '[default]');
+  t.deepEqual(result[1], 'aws_access_key_id = 11111111111111111111');
+  t.deepEqual(result[2], 'aws_secret_access_key = 2222222222222222222222222222222222222222');
+  t.deepEqual(result[3], '');
 });
 
 test.cb('it should call finish', (t) => {
@@ -97,7 +97,7 @@ test.cb('it should write the json to a file correctly', (t) => {
         temp.cleanupSync();
         return t.end(err);
       }
-      t.same(removeLineEndings(data), removeLineEndings(expectedFileStructure));
+      t.deepEqual(removeLineEndings(data), removeLineEndings(expectedFileStructure));
       temp.cleanupSync();
       t.end();
     });
@@ -129,7 +129,7 @@ test.cb('it should update the file correctly', (t) => {
         temp.cleanupSync();
         return t.end(err);
       }
-      t.same(removeLineEndings(data), removeLineEndings(expectedFileStructure));
+      t.deepEqual(removeLineEndings(data), removeLineEndings(expectedFileStructure));
       temp.cleanupSync();
       t.end();
     });
@@ -161,7 +161,7 @@ test.cb('it should write the new profile', (t) => {
         temp.cleanupSync();
         return t.end(err);
       }
-      t.same(removeLineEndings(data), removeLineEndings(expectedFileStructure));
+      t.deepEqual(removeLineEndings(data), removeLineEndings(expectedFileStructure));
       temp.cleanupSync();
       t.end();
     });

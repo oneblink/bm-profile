@@ -30,7 +30,7 @@ test.serial('it should set the path values to default if they are not supplied',
   const CredentialHelper = require(credentialFileHelper);
   const c = new CredentialHelper();
 
-  t.same(c.path, CredentialHelper.DEFAULT_PATH);
+  t.deepEqual(c.path, CredentialHelper.DEFAULT_PATH);
 });
 
 test.serial('non-existant paths should be invalid', (t) => {
@@ -62,7 +62,7 @@ test.serial('it should find the default profile', (t) => {
   const CredentialHelper = require(credentialFileHelper);
   const c = new CredentialHelper('./fixtures/default-only');
 
-  return c.profileExists('default').then((found) => t.same(found, 'default'));
+  return c.profileExists('default').then((found) => t.deepEqual(found, 'default'));
 });
 
 test.serial('it should resolve with false if the profile doesnt exist', (t) => {
@@ -79,7 +79,7 @@ test.serial('backup file name should be generated correctly', (t) => {
   const c = new CredentialHelper(path.join(process.cwd(), 'fixtures', 'default-only'));
 
   const result = c.makeBackupName(1);
-  t.same(result, 'default-only.1.blink-backup');
+  t.deepEqual(result, 'default-only.1.blink-backup');
 });
 
 test.serial('backup should throw an error if the path doesnt exist', (t) => {
@@ -105,7 +105,7 @@ test.serial('the next number in the sequence should be returned', (t) => {
   ];
 
   const result = c.getNextBackupNumber(files);
-  t.same(result, 11);
+  t.deepEqual(result, 11);
 });
 
 test.serial('getNextBackupNumber should handle an empty array', (t) => {
@@ -115,7 +115,7 @@ test.serial('getNextBackupNumber should handle an empty array', (t) => {
   const files = [];
 
   const result = c.getNextBackupNumber(files);
-  t.same(result, 1);
+  t.deepEqual(result, 1);
 });
 
 test.cb('backup should work', (t) => {
@@ -144,7 +144,7 @@ test.cb('backup should work', (t) => {
       c.backup().then((backupFile) => {
         const basename = path.basename(backupFile);
         const expectedName = `credentials.1${CredentialHelper.BACKUP_EXT}`;
-        t.same(basename, expectedName);
+        t.deepEqual(basename, expectedName);
         fs.readFile(backupFile, (err, data) => {
           if (err) {
             t.fail();
@@ -152,7 +152,7 @@ test.cb('backup should work', (t) => {
             return;
           }
 
-          t.same(data.toString('utf-8'), fileContents);
+          t.deepEqual(data.toString('utf-8'), fileContents);
           t.pass();
           t.end();
         });
@@ -184,10 +184,10 @@ test.cb('saveCredentials should create the credentials file with the new profile
       t.notThrows(() => fs.accessSync(credentialsPath));
 
       const contents = fs.readFileSync(credentialsPath).toString().trim().split(os.EOL);
-      t.same(contents.length, 3);
-      t.same(contents[0], '[test]');
-      t.same(contents[1], 'aws_access_key_id = aaaaaaaaaaaaaaaaaaaa');
-      t.same(contents[2], 'aws_secret_access_key = bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+      t.deepEqual(contents.length, 3);
+      t.deepEqual(contents[0], '[test]');
+      t.deepEqual(contents[1], 'aws_access_key_id = aaaaaaaaaaaaaaaaaaaa');
+      t.deepEqual(contents[2], 'aws_secret_access_key = bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
       t.pass();
       t.end();
     }).catch((err) => {
@@ -226,20 +226,20 @@ test.cb('saveCredentials should overwrite the old file with a new entry', (t) =>
         t.notThrows(() => fs.accessSync(credentialsPath));
 
         // backup has been made
-        t.same(fs.readdirSync(dir).length, 2);
+        t.deepEqual(fs.readdirSync(dir).length, 2);
 
         // contents are correct
         const contents = fs.readFileSync(credentialsPath).toString().trim().split(os.EOL);
-        t.same(contents.length, 9);
-        t.same(contents[0], '[default]');
-        t.same(contents[1], 'aws_access_key_id = 11111111111111111111');
-        t.same(contents[2], 'aws_secret_access_key = 2222222222222222222222222222222222222222');
-        t.same(contents[3], '[first]');
-        t.same(contents[4], 'aws_access_key_id = 33333333333333333333');
-        t.same(contents[5], 'aws_secret_access_key = 4444444444444444444444444444444444444444');
-        t.same(contents[6], '[second]');
-        t.same(contents[7], 'aws_access_key_id = 55555555555555555555');
-        t.same(contents[8], 'aws_secret_access_key = 6666666666666666666666666666666666666666');
+        t.deepEqual(contents.length, 9);
+        t.deepEqual(contents[0], '[default]');
+        t.deepEqual(contents[1], 'aws_access_key_id = 11111111111111111111');
+        t.deepEqual(contents[2], 'aws_secret_access_key = 2222222222222222222222222222222222222222');
+        t.deepEqual(contents[3], '[first]');
+        t.deepEqual(contents[4], 'aws_access_key_id = 33333333333333333333');
+        t.deepEqual(contents[5], 'aws_secret_access_key = 4444444444444444444444444444444444444444');
+        t.deepEqual(contents[6], '[second]');
+        t.deepEqual(contents[7], 'aws_access_key_id = 55555555555555555555');
+        t.deepEqual(contents[8], 'aws_secret_access_key = 6666666666666666666666666666666666666666');
         t.pass();
         t.end();
       }).catch((err) => {

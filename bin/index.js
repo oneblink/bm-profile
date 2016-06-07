@@ -17,7 +17,7 @@ const cli = meow({
   version: true
 }, {
   alias: {
-    c: 'config'
+    s: 'set'
   }
 });
 
