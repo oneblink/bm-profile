@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "description": "Plugin for managing profiles with BlinkMobile's Platform CLI",
   "main": "index.js",
+  "preferGlobal": "true",
   "bin": {
-    "blinkm-client": "./bin/index.js"
+    "blinkm-profile": "./bin/index.js"
   },
   "engines": {
     "node": ">=4.0.0",
