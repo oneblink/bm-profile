@@ -1,6 +1,6 @@
 {
   "name": "@blinkmobile/bm-profile",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Plugin for managing profiles with BlinkMobile's Platform CLI",
   "main": "index.js",
   "preferGlobal": "true",
