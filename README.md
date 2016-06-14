@@ -1,5 +1,9 @@
 [![Build Status](https://travis-ci.org/blinkmobile/bm-profile.svg?branch=master)](https://travis-ci.org/blinkmobile/bm-profile)
 
+# Installation
+
+npm install -g @blinkmobile/cli @blinkmobile/bm-profile
+
 # Credentials Profile Management
 
 This is a utility for use with our [CLI](https://github.com/blinkmobile/cli)
